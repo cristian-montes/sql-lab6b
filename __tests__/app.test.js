@@ -28,31 +28,90 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    test('returns animals', async() => {
+
+    //TEST FOR COWS DATA
+    test('returns cows', async() => {
 
       const expectation = [
         {
-          'id': 1,
-          'name': 'bessie',
-          'cool_factor': 3,
-          'owner_id': 1
+          id: 1,
+          sex: 'male',
+          number_horns: 11,
+          milk: false,
+          cow_breed: 'Sebu',
+          owner_id: 1,
         },
         {
-          'id': 2,
-          'name': 'jumpy',
-          'cool_factor': 4,
-          'owner_id': 1
+          id: 2,
+          sex: 'female',
+          number_horns: 22,
+          milk: true,
+          cow_breed: 'charolais',
+          owner_id: 1,
         },
         {
-          'id': 3,
-          'name': 'spot',
-          'cool_factor': 10,
-          'owner_id': 1
+          id: 3,
+          sex: 'male',
+          number_horns: 22,
+          milk: true,
+          cow_breed: 'Sebu',
+          owner_id: 1,
+        },
+        {
+          id: 4,
+          sex: 'female',
+          number_horns: 22,
+          milk: false,
+          cow_breed: 'charolais',
+          owner_id: 1,
         }
       ];
 
       const data = await fakeRequest(app)
-        .get('/animals')
+        .get('/cows')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
+
+    //TEST FOR COWS ID
+    test('returns cows id', async() => {
+
+      const expectation = [
+        {
+          id: 1,
+          sex: 'male',
+          number_horns: 11,
+          milk: false,
+          cow_breed: 'Sebu',
+          owner_id: 1
+        },
+        // {
+        //   id: 2,
+        //   sex: 'female',
+        //   number_horns: 22,
+        //   milk: true,
+        //   cow_breed: 'charolais',
+        // },
+        // {
+        //   id: 3,
+        //   sex: 'male',
+        //   number_horns: 22,
+        //   milk: true,
+        //   cow_breed: 'Sebu',
+        // },
+        // {
+        //   id: 4,
+        //   sex: 'female',
+        //   number_horns: 22,
+        //   milk: false,
+        //   cow_breed: 'charolais',
+        // }
+      ];
+
+      const data = await fakeRequest(app)
+        .get('/cows/1')
         .expect('Content-Type', /json/)
         .expect(200);
 
@@ -60,3 +119,5 @@ describe('app routes', () => {
     });
   });
 });
+
+
