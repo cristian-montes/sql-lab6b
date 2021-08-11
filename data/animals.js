@@ -1,14 +1,30 @@
 module.exports = [
   {
-    name: 'bessie',
-    cool_factor: 3,
+    id: 1,
+    type: 'toro',
+    number: 11,
+    milk: false,
+    cow_race: 'Sebu',
   },
   {
-    name: 'jumpy',
-    cool_factor: 4,
+    id: 2,
+    type: 'vaca',
+    number: 22,
+    milk: true,
+    cow_race: 'charolais',
   },
   {
-    name: 'spot',
-    cool_factor: 10,
+    id: 3,
+    type: 'becerro',
+    number: 22,
+    milk: true,
+    cow_race: 'Sebu',
+  },
+  {
+    id: 4,
+    type: 'novillo',
+    number: 22,
+    milk: false,
+    cow_race: 'charolais',
   }
 ];
