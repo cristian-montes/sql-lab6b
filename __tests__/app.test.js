@@ -100,13 +100,6 @@ describe('app routes', () => {
         //   number_horns: 22,
         //   milk: true,
         //   cow_breed: 'Sebu',
-        // },
-        // {
-        //   id: 4,
-        //   sex: 'female',
-        //   number_horns: 22,
-        //   milk: false,
-        //   cow_breed: 'charolais',
         // }
       ];
 
