@@ -5,23 +5,24 @@ const { execSync } = require('child_process');
 const fakeRequest = require('supertest');
 const app = require('../lib/app');
 const client = require('../lib/client');
+// const cowsData = require('../data/cows.js');
 
 describe('app routes', () => {
   describe('routes', () => {
-    let token;
+    // let token;
   
     beforeAll(async () => {
       execSync('npm run setup-db');
   
       await client.connect();
-      const signInData = await fakeRequest(app)
-        .post('/auth/signup')
-        .send({
-          email: 'jon@user.com',
-          password: '1234'
-        });
+      // const signInData = await fakeRequest(app)
+      //   .post('/auth/signup')
+      //   .send({
+      //     email: 'jon@user.com',
+      //     password: '1234'
+      //   });
       
-      token = signInData.body.token; // eslint-disable-line
+      // token = signInData.body.token; // eslint-disable-line
     }, 10000);
   
     afterAll(done => {
@@ -86,21 +87,7 @@ describe('app routes', () => {
           milk: false,
           cow_breed: 'Sebu',
           owner_id: 1
-        },
-        // {
-        //   id: 2,
-        //   sex: 'female',
-        //   number_horns: 22,
-        //   milk: true,
-        //   cow_breed: 'charolais',
-        // },
-        // {
-        //   id: 3,
-        //   sex: 'male',
-        //   number_horns: 22,
-        //   milk: true,
-        //   cow_breed: 'Sebu',
-        // }
+        }
       ];
 
       const data = await fakeRequest(app)
@@ -109,6 +96,27 @@ describe('app routes', () => {
         .expect(200);
 
       expect(data.body).toEqual(expectation);
+    });
+    //TEST PUT IN NEW COW
+    test('POST/ cows returns new cow', async() => {
+
+      const newCow = {
+        id: 5,
+        sex: 'female',
+        number_horns: 2,
+        milk: true,
+        cow_breed: 'horlandesa',
+        // owner_id: 1
+      };
+
+      const data = await fakeRequest(app)
+        .post('/cows')
+        .send(newCow)
+        .expect(200)
+        .expect('Content-Type', /json/);
+
+      expect(data.body.number_horns).toEqual(newCow.number_horns);
+      expect(data.body.id).toBeGreaterThan(0);
     });
   });
 });
