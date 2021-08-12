@@ -40,7 +40,6 @@ describe('app routes', () => {
           number_horns: 11,
           milk: false,
           cow_breed: 'Sebu',
-          owner_id: 1,
         },
         {
           id: 2,
@@ -48,7 +47,6 @@ describe('app routes', () => {
           number_horns: 22,
           milk: true,
           cow_breed: 'charolais',
-          owner_id: 1,
         },
         {
           id: 3,
@@ -56,7 +54,6 @@ describe('app routes', () => {
           number_horns: 22,
           milk: true,
           cow_breed: 'Sebu',
-          owner_id: 1,
         },
         {
           id: 4,
@@ -64,7 +61,6 @@ describe('app routes', () => {
           number_horns: 22,
           milk: false,
           cow_breed: 'charolais',
-          owner_id: 1,
         }
       ];
 
@@ -86,7 +82,6 @@ describe('app routes', () => {
           number_horns: 11,
           milk: false,
           cow_breed: 'Sebu',
-          owner_id: 1
         }
       ];
 
@@ -98,27 +93,40 @@ describe('app routes', () => {
       expect(data.body).toEqual(expectation);
     });
     //TEST PUT IN NEW COW
-    test('POST/ cows returns new cow', async() => {
-
+    test('POST /cow in new cow', async ()=>{
       const newCow = {
-        id: 5,
         sex: 'female',
-        number_horns: 2,
+        number_horns: 8,
         milk: true,
-        cow_breed: 'horlandesa',
-        // owner_id: 1
+        cow_breed: 'holandesa',
       };
 
       const data = await fakeRequest(app)
         .post('/cows')
         .send(newCow)
-        .expect(200)
+        // .expect(200)
         .expect('Content-Type', /json/);
 
-      expect(data.body.number_horns).toEqual(newCow.number_horns);
+      expect(data.body.cow_breed).toEqual(newCow.cow_breed);
+      expect(data.body.id).toBeGreaterThan(0);
+    });
+    //TEST PUT IN NEW COW
+    test('PUT /cow/:id updates codegi', async ()=>{
+      const newCow = {
+        sex: 'female',
+        number_horns: 8,
+        milk: true,
+        cow_breed: 'holandesa',
+      };
+
+      const data = await fakeRequest(app)
+        .post('/cows')
+        .send(newCow)
+        // .expect(200)
+        .expect('Content-Type', /json/);
+
+      expect(data.body.cow_breed).toEqual(newCow.cow_breed);
       expect(data.body.id).toBeGreaterThan(0);
     });
   });
 });
-
-

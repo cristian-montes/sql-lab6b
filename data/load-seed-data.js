@@ -10,8 +10,8 @@ async function run() {
 
   try {
     await client.connect();
-
-    const users = await Promise.all(
+    
+    await Promise.all(
       usersData.map(user => {
         return client.query(`
                       INSERT INTO users (email, hash)
@@ -22,15 +22,16 @@ async function run() {
       })
     );
       
-    const user = users[0].rows[0];
+
 
     await Promise.all(
       cows.map(cow => {
         return client.query(`
-                    INSERT INTO cows (sex, number_horns, milk, cow_breed, owner_id)
-                    VALUES ($1, $2, $3, $4, $5);
+                    INSERT INTO cows (sex, number_horns, milk, cow_breed)
+                    VALUES ($1, $2, $3, $4)
+                    RETURNING *;
                 `,
-        [cow.sex, cow.number_horns, cow.milk, cow.cow_breed, user.id]);
+        [cow.sex, cow.number_horns, cow.milk, cow.cow_breed]);
       })
     );
     
