@@ -22,8 +22,7 @@ async function run() {
                     sex VARCHAR(512) NOT NULL,
                     number_horns INTEGER NOT NULL,
                     milk BOOLEAN NOT NULL,
-                    cow_breed VARCHAR(512) NOT NULL,
-                    owner_id INTEGER NOT NULL REFERENCES users(id)
+                    cow_breed VARCHAR(512) NOT NULL
             );
         `);
 
