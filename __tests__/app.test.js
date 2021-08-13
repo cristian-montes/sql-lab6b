@@ -5,7 +5,8 @@ const { execSync } = require('child_process');
 const fakeRequest = require('supertest');
 const app = require('../lib/app');
 const client = require('../lib/client');
-// const cowsData = require('../data/cows.js');
+const cowsData = require('../data/cows.js');
+const { request } = require('../lib/app');
 
 describe('app routes', () => {
   describe('routes', () => {
@@ -28,7 +29,6 @@ describe('app routes', () => {
     afterAll(done => {
       return client.end(done);
     });
-
 
     //TEST FOR COWS DATA
     test('returns cows', async() => {
@@ -92,7 +92,7 @@ describe('app routes', () => {
 
       expect(data.body).toEqual(expectation);
     });
-    //TEST PUT IN NEW COW
+    //TEST POST IN NEW COW
     test('POST /cow in new cow', async ()=>{
       const newCow = {
         sex: 'female',
@@ -129,6 +129,26 @@ describe('app routes', () => {
       expect(data.body.number_horns).toEqual(updateCow.number_horns);
       expect(data.body.milk).toEqual(updateCow.milk);
       expect(data.body.cow_breed).toEqual(updateCow.cow_breed);
+    });
+    //TEST DELETE A COW
+    test('DELETE /cow/:id updates cows', async ()=>{
+      const deleteCow = {
+        sex: 'humanoid',
+        number_horns: 2,
+        milk: true,
+        cow_breed: 'pinta',
+      };
+
+      const data = await fakeRequest(app)
+        .delete('/cows/5')
+        .send(deleteCow)
+        .expect(200)
+        .expect('Content-Type', /json/);
+
+      // expect(data.body).toEqual(cowsData);
+      expect(data.body.number_horns).toEqual(deleteCow.number_horns);
+      expect(data.body.milk).toEqual(deleteCow.milk);
+      expect(data.body.cow_breed).toEqual(deleteCow.cow_breed);
     });
   });
 });
