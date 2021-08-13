@@ -104,29 +104,31 @@ describe('app routes', () => {
       const data = await fakeRequest(app)
         .post('/cows')
         .send(newCow)
-        // .expect(200)
+        .expect(200)
         .expect('Content-Type', /json/);
 
       expect(data.body.cow_breed).toEqual(newCow.cow_breed);
       expect(data.body.id).toBeGreaterThan(0);
     });
     //TEST PUT IN NEW COW
-    test('PUT /cow/:id updates codegi', async ()=>{
-      const newCow = {
-        sex: 'female',
-        number_horns: 8,
+    test('PUT /cow/:id updates cows', async ()=>{
+      const updateCow = {
+        sex: 'humanoid',
+        number_horns: 2,
         milk: true,
-        cow_breed: 'holandesa',
+        cow_breed: 'pinta',
       };
 
       const data = await fakeRequest(app)
-        .post('/cows')
-        .send(newCow)
-        // .expect(200)
+        .put('/cows/5')
+        .send(updateCow)
+        .expect(200)
         .expect('Content-Type', /json/);
 
-      expect(data.body.cow_breed).toEqual(newCow.cow_breed);
-      expect(data.body.id).toBeGreaterThan(0);
+      expect(data.body.sex).toEqual(updateCow.sex);
+      expect(data.body.number_horns).toEqual(updateCow.number_horns);
+      expect(data.body.milk).toEqual(updateCow.milk);
+      expect(data.body.cow_breed).toEqual(updateCow.cow_breed);
     });
   });
 });
