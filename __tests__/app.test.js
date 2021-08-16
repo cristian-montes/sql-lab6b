@@ -5,8 +5,8 @@ const { execSync } = require('child_process');
 const fakeRequest = require('supertest');
 const app = require('../lib/app');
 const client = require('../lib/client');
-const cowsData = require('../data/cows.js');
-const { request } = require('../lib/app');
+// const cowsData = require('../data/cows.js');
+// const { request } = require('../lib/app');
 
 describe('app routes', () => {
   describe('routes', () => {

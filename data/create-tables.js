@@ -16,13 +16,17 @@ async function run() {
                     id SERIAL PRIMARY KEY,
                     email VARCHAR(256) NOT NULL,
                     hash VARCHAR(512) NOT NULL
-                );           
+                );       
+                CREATE TABLE breeds (
+                  id SERIAL PRIMARY KEY NOT NULL,
+                  breed_type VARCHAR(512) UNIQUE NOT NULL
+                );    
                 CREATE TABLE cows (
                     id SERIAL PRIMARY KEY NOT NULL,
                     sex VARCHAR(512) NOT NULL,
                     number_horns INTEGER NOT NULL,
                     milk BOOLEAN NOT NULL,
-                    cow_breed VARCHAR(512) NOT NULL
+                    breed_id INTEGER NOT NULL REFERENCES breeds(id)
             );
         `);
 

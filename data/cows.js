@@ -3,25 +3,25 @@ module.exports = [
     sex: 'male',
     number_horns: 11,
     milk: false,
-    cow_breed: 'Sebu',
+    breed_id: 1,
   },
   {
     sex: 'female',
     number_horns: 22,
     milk: true,
-    cow_breed: 'charolais',
+    breed_id: 2,
   },
   {
     
     sex: 'male',
     number_horns: 22,
     milk: true,
-    cow_breed: 'Sebu',
+    breed_id: 1,
   },
   {
     sex: 'female',
     number_horns: 22,
     milk: false,
-    cow_breed: 'charolais',
+    breed_id: 2,
   }
 ];
