@@ -10,7 +10,19 @@ run();
 async function run() {
 
   try {
-  
+    await client.connect();
+
+    await Promise.all(
+      breedsData.map(breed => {
+        return client.query(`
+                    INSERT INTO breeds (breed_type)
+                    VALUES ($1)
+                    RETURNING *;
+        `, 
+        [breed.breed_type]);
+      })
+    );
+
     await Promise.all(
       usersData.map(user => {
         return client.query(`
@@ -21,20 +33,7 @@ async function run() {
         [user.email, user.hash]);
       })
     );
-
-    await client.connect();
-
-    await Promise.all(
-      breedsData.map(breed => {
-        return client.query(`
-                    INSERT INTO breeds (breed_type)
-                    VALUES ($1)
-                    RETURNING *;
-        `[breed.breed_type]);
-      })
-    );
-    
-
+      
     await Promise.all(
       cows.map(cow => {
         return client.query(`
