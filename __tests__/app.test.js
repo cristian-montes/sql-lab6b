@@ -6,7 +6,7 @@ const fakeRequest = require('supertest');
 const app = require('../lib/app');
 const client = require('../lib/client');
 const cowsData = require('../data/cows.js');
-const { request } = require('../lib/app');
+
 
 describe('app routes', () => {
   describe('routes', () => {
@@ -31,64 +31,43 @@ describe('app routes', () => {
     });
 
     //TEST FOR COWS DATA
-    test('returns cows', async() => {
+    test('GET/returns cows', async() => {
 
-      const expectation = [
-        {
-          id: 1,
-          sex: 'male',
-          number_horns: 11,
-          milk: false,
-          cow_breed: 'Sebu',
-        },
-        {
-          id: 2,
-          sex: 'female',
-          number_horns: 22,
-          milk: true,
-          cow_breed: 'charolais',
-        },
-        {
-          id: 3,
-          sex: 'male',
-          number_horns: 22,
-          milk: true,
-          cow_breed: 'Sebu',
-        },
-        {
-          id: 4,
-          sex: 'female',
-          number_horns: 22,
-          milk: false,
-          cow_breed: 'charolais',
-        }
-      ];
+      const expectedShape =
+      {
+        id: 1,
+        sex:'male',
+        number_horns:11,
+        milk: false,
+        breed:'Sebu'
+      };
+     
 
       const data = await fakeRequest(app)
         .get('/cows')
         .expect('Content-Type', /json/)
         .expect(200);
 
-      expect(data.body).toEqual(expectation);
-    });
+      expect(data.body[0]).toEqual(expectedShape);
+    }, 100000);
 
     //TEST FOR COWS ID
-    test('returns cows id', async() => {
+    test('GET/returns cows id', async() => {
 
-      const expectation = [
+      const expectation =
         {
           id: 1,
-          sex: 'male',
-          number_horns: 11,
+          sex:'male',
+          number_horns:11,
           milk: false,
-          cow_breed: 'Sebu',
-        }
-      ];
+          breed:'Sebu'
+        };
 
       const data = await fakeRequest(app)
         .get('/cows/1')
         .expect('Content-Type', /json/)
         .expect(200);
+  
 
       expect(data.body).toEqual(expectation);
     });
@@ -98,7 +77,7 @@ describe('app routes', () => {
         sex: 'female',
         number_horns: 8,
         milk: true,
-        cow_breed: 'holandesa',
+        breed_id:2
       };
 
       const data = await fakeRequest(app)
@@ -106,21 +85,23 @@ describe('app routes', () => {
         .send(newCow)
         .expect(200)
         .expect('Content-Type', /json/);
+        
 
-      expect(data.body.cow_breed).toEqual(newCow.cow_breed);
+
+      expect(data.body.sex).toEqual(newCow.sex);
       expect(data.body.id).toBeGreaterThan(0);
     });
-    //TEST PUT IN NEW COW
+    // //TEST PUT IN NEW COW
     test('PUT /cow/:id updates cows', async ()=>{
       const updateCow = {
         sex: 'humanoid',
         number_horns: 2,
         milk: true,
-        cow_breed: 'pinta',
+        breed_id: 2,
       };
 
       const data = await fakeRequest(app)
-        .put('/cows/5')
+        .put('/cows/4')
         .send(updateCow)
         .expect(200)
         .expect('Content-Type', /json/);
@@ -130,23 +111,23 @@ describe('app routes', () => {
       expect(data.body.milk).toEqual(updateCow.milk);
       expect(data.body.cow_breed).toEqual(updateCow.cow_breed);
     });
-    //TEST DELETE A COW
+    // //TEST DELETE A COW
     test('DELETE /cow/:id updates cows', async ()=>{
       const deleteCow = {
         sex: 'humanoid',
         number_horns: 2,
         milk: true,
-        cow_breed: 'pinta',
+        breed_id: 2
       };
 
       const data = await fakeRequest(app)
-        .delete('/cows/5')
+        .delete('/cows/4')
         .send(deleteCow)
         .expect(200)
         .expect('Content-Type', /json/);
 
       // expect(data.body).toEqual(cowsData);
-      expect(data.body.number_horns).toEqual(deleteCow.number_horns);
+      expect(data.body.sex).toEqual(deleteCow.sex);
       expect(data.body.milk).toEqual(deleteCow.milk);
       expect(data.body.cow_breed).toEqual(deleteCow.cow_breed);
     });
